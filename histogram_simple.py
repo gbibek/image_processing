@@ -11,3 +11,5 @@ img_width = grey_img.width()
 for row in range(0, img_height):
     for col in range(0, img_width):
         gray_val = qGray(grey_img.pixel(col, row))
+        print(gray_val)
+        exit()
