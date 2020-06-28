@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QWidget, QVBoxLayout, QGridLayout
 from PyQt5.QtGui import QPixmap, QImage, qRed, qGreen, qBlue, qGray, QColor
 import sys
-from IntensityTransformation import Negative
+from IntensityTransformation import *
 
 image_name = "test_img.jpg"
 
@@ -38,8 +38,11 @@ class Menu(QWidget):
         self.setGeometry(50, 50, 320, 200)
         img = GetChangedFormat(self.initial_image, QImage.Format_Grayscale8)
         self.CollectImageGreyIntensity()
-        img_neg = self.ManipulatePixel(img)
-        self.show_image("display_image", self.initial_image, img, img_neg)
+        img_neg = self.ManipulatePixel(img, Negative)
+        img_log_50 = self.ManipulatePixel(img, Log, 50)
+        img_log_t_100 = self.ManipulatePixel(img, Log, 100)
+        self.show_image("display_negative_image",
+                        self.initial_image, img, img_neg, img_log_50, img_log_t_100)
 
     def show_image(self, title, *images):
         index_x = 1
@@ -50,7 +53,7 @@ class Menu(QWidget):
             if index_y > 2:
                 index_x += 1
                 index_y = 1
-
+        self.setWindowTitle(title)
         self.show()
 
     def add_image_to_widget(self, img, x, y):
@@ -58,13 +61,18 @@ class Menu(QWidget):
         label.setPixmap(QPixmap.fromImage(img))
         self.grid.addWidget(label, x, y)
 
-    def ManipulatePixel(self, img):
+    def ManipulatePixel(self, img, func,  *scale):
         ret_img = QImage(img)
+        computed_intensity = []
         # loop over and access each pixel's grey scale.
-        neg_intensity = Negative(self.img_intensity)
-        for row in range(len(neg_intensity)):
-            for col in range(len(neg_intensity[row])):
-                val = neg_intensity[row][col]
+        if len(scale) == 0:
+            computed_intensity = func(self.img_intensity)
+        else:
+            computed_intensity = func(self.img_intensity, scale[0])
+
+        for row in range(len(computed_intensity)):
+            for col in range(len(computed_intensity[row])):
+                val = computed_intensity[row][col]
                 ret_img.setPixel(col, row, QColor(val, val, val).rgb())
         return ret_img
 
