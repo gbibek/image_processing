@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QWidget, QVBoxLayout, QGridLayout
+from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication, QWidget, QVBoxLayout, QGridLayout, QScrollArea
 from PyQt5.QtGui import QPixmap, QImage, qRed, qGreen, qBlue, qGray, QColor
 import sys
 from IntensityTransformation import *
@@ -24,27 +24,41 @@ def ShowPixel(img):
 
 
 class Menu(QWidget):
-    def __init__(self):
+    def __init__(self, image):
         super().__init__()
         self.img_intensity = []
 
         # open image
-        self.initial_image = QImage(image_name)
+        self.initial_image = image
         self.img_height = self.initial_image.height()
         self.img_width = self.initial_image.width()
 
-        self.grid = QGridLayout()
-        self.setLayout(self.grid)
-        self.setGeometry(50, 50, 320, 200)
+        # create scroll object
+        self.scroll = QScrollArea()
+        self.scroll.setWidgetResizable(True)
+        # create widget and set grid layout to it
+        self.my_widget = QWidget()
+        self.my_grid = QGridLayout()
+        self.my_widget.setLayout(self.my_grid)
+        # set my_widget to scroll
+        self.scroll.setWidget(self.my_widget)
+
         img = GetChangedFormat(self.initial_image, QImage.Format_Grayscale8)
         self.CollectImageGreyIntensity()
         img_neg = self.ManipulatePixel(img, Negative)
+        img_log_10 = self.ManipulatePixel(img, Log, 10)
+        img_log_25 = self.ManipulatePixel(img, Log, 25)
         img_log_50 = self.ManipulatePixel(img, Log, 50)
-        img_log_t_100 = self.ManipulatePixel(img, Log, 100)
-        self.show_image("display_negative_image",
-                        self.initial_image, img, img_neg, img_log_50, img_log_t_100)
+        img_log_75 = self.ManipulatePixel(img, Log, 70)
+        img_log_100 = self.ManipulatePixel(img, Log, 100)
+        self.show_image(
+            self.initial_image, img, img_neg,
+            img_log_10, img_log_25, img_log_50,
+            img_log_75, img_log_100)
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.scroll)
 
-    def show_image(self, title, *images):
+    def show_image(self, *images):
         index_x = 1
         index_y = 1
         for image in images:
@@ -53,13 +67,11 @@ class Menu(QWidget):
             if index_y > 2:
                 index_x += 1
                 index_y = 1
-        self.setWindowTitle(title)
-        self.show()
 
     def add_image_to_widget(self, img, x, y):
         label = QLabel()
         label.setPixmap(QPixmap.fromImage(img))
-        self.grid.addWidget(label, x, y)
+        self.my_grid.addWidget(label, x, y)
 
     def ManipulatePixel(self, img, func,  *scale):
         ret_img = QImage(img)
@@ -89,6 +101,12 @@ class Menu(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Menu()
-    app.exec_()
+    # open image
+    img = QImage(image_name)
+
+    window = Menu(img)
+    window.setGeometry(500, 100, img.width() + 100, 500)
+    window.setWindowTitle("Display process images")
+    window.show()
+    sys.exit(app.exec_())
     # sys.exit(app.exec_())
