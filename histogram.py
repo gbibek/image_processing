@@ -46,15 +46,29 @@ class Menu(QWidget):
         img = GetChangedFormat(self.initial_image, QImage.Format_Grayscale8)
         self.CollectImageGreyIntensity()
         img_neg = self.ManipulatePixel(img, Negative)
-        img_log_10 = self.ManipulatePixel(img, Log, 10)
-        img_log_25 = self.ManipulatePixel(img, Log, 25)
-        img_log_50 = self.ManipulatePixel(img, Log, 50)
-        img_log_75 = self.ManipulatePixel(img, Log, 70)
-        img_log_100 = self.ManipulatePixel(img, Log, 100)
-        self.show_image(
-            self.initial_image, img, img_neg,
-            img_log_10, img_log_25, img_log_50,
-            img_log_75, img_log_100)
+        intensity_tranformation = "power"
+        if intensity_tranformation == "log":
+            img_log_10 = self.ManipulatePixel(img, Log, 10)
+            img_log_25 = self.ManipulatePixel(img, Log, 25)
+            img_log_50 = self.ManipulatePixel(img, Log, 50)
+            img_log_75 = self.ManipulatePixel(img, Log, 70)
+            img_log_100 = self.ManipulatePixel(img, Log, 100)
+            self.show_image(
+                self.initial_image, img, img_neg,
+                img_log_10, img_log_25, img_log_50,
+                img_log_75, img_log_100)
+        if intensity_tranformation == "power":
+            tmp_img = self.ManipulatePixel(img, Log, 10)
+            # tends to be brigher
+            img_log_10 = self.ManipulatePixel(tmp_img, Power, 50, 0.04)
+            # closer to tmp_img
+            img_log_25 = self.ManipulatePixel(tmp_img, Power, 1, 1)
+            # tends to be darker
+            img_log_50 = self.ManipulatePixel(tmp_img, Power, 50, 2.5)
+            #img_log_75 = self.ManipulatePixel(img, Power, 50, 5)
+            self.show_image(
+                self.initial_image, tmp_img,
+                img_log_10, img_log_25, img_log_50)
         layout = QVBoxLayout(self)
         layout.addWidget(self.scroll)
 
@@ -79,8 +93,10 @@ class Menu(QWidget):
         # loop over and access each pixel's grey scale.
         if len(scale) == 0:
             computed_intensity = func(self.img_intensity)
-        else:
+        elif len(scale) == 1:
             computed_intensity = func(self.img_intensity, scale[0])
+        elif len(scale) == 2:
+            computed_intensity = func(self.img_intensity, scale[0], scale[1])
 
         for row in range(len(computed_intensity)):
             for col in range(len(computed_intensity[row])):

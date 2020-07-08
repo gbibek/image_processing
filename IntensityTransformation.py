@@ -25,3 +25,15 @@ def Log(intensity_2d, c=1):
             collect_log_intensity.append(s)
         log_intensity.append(collect_log_intensity)
     return log_intensity
+
+
+def Power(intensity_2d, c=1, gamma=1):
+    log_intensity = []
+    for i in range(len(intensity_2d)):
+        collect_log_intensity = []
+        for j in range(len(intensity_2d[i])):
+            r = intensity_2d[i][j]
+            s = c * pow(r, gamma)
+            collect_log_intensity.append(s)
+        log_intensity.append(collect_log_intensity)
+    return log_intensity
