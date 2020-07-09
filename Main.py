@@ -6,14 +6,8 @@ from ManipulatePixel import *
 from CollectQImage import *
 from Util import *
 
-image_name = "test_img.jpg"
 
-test = "log_"
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    # open image
-    org_image = QImage(image_name)
+def image_process(org_image, test):
     # grey image
     grey_img = GetChangedFormat(org_image, QImage.Format_Grayscale8)
     # collect images for displaying
@@ -33,10 +27,6 @@ if __name__ == '__main__':
             grey_img).GetManipulatedPixel(Log, 70))
         display_images.append(ManipulatePixel(
             grey_img).GetManipulatedPixel(Log, 100))
-        # show image
-        collect_image = CollectQImage()
-        collect_image.add_images(display_images)
-        collect_image.display_images(org_image.width())
     elif test == "power":
         # power
         display_images.append(ManipulatePixel(grey_img).GetManipulatedPixel(
@@ -50,13 +40,19 @@ if __name__ == '__main__':
         # tends to be darker
         display_images.append(ManipulatePixel(grey_img).GetManipulatedPixel(
             Power, 50, 2.5))
-        # show image
-        collect_image = CollectQImage()
-        collect_image.add_images(display_images)
-        collect_image.display_images(org_image.width())
-    else:
-        # show image
-        collect_image = CollectQImage()
-        collect_image.add_images(display_images)
-        collect_image.display_images(org_image.width())
+    return display_images
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    image_name = "test_img.jpg"
+    test = "power"
+    # open image
+    org_image = QImage(image_name)
+    display_images = image_process(org_image, test)
+
+    # show image
+    collect_image = CollectQImage()
+    collect_image.add_images(display_images)
+    collect_image.display_images(org_image.width())
     sys.exit(app.exec_())

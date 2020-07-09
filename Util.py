@@ -2,11 +2,9 @@ from PyQt5.QtGui import qGray
 
 
 def ShowPixelValue(img):
-
     # read image height and width
     img_height = img.height()
     img_width = img.width()
-
     # loop over and access each pixel's grey scale.
     for row in range(0, img_height):
         for col in range(0, img_width):
