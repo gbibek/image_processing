@@ -15,7 +15,7 @@ class CollectQImage(QWidget):
         # set my_widget to scroll
         self.scroll.setWidget(self.my_widget)
 
-    def add_images_to_layout(self, images):
+    def add_images(self, images):
         index_x = 1
         index_y = 1
         for image in images:
@@ -27,7 +27,7 @@ class CollectQImage(QWidget):
         layout = QVBoxLayout(self)
         layout.addWidget(self.scroll)
 
-    def display(self, width):
+    def display_images(self, width):
         self.setGeometry(500, 100, width + 100, 500)
         self.setWindowTitle("Display processed images")
         self.show()

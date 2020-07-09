@@ -35,8 +35,8 @@ if __name__ == '__main__':
             grey_img).GetManipulatedPixel(Log, 100))
         # show image
         collect_image = CollectQImage()
-        collect_image.add_images_to_layout(display_images)
-        collect_image.dispaly(org_image.width())
+        collect_image.add_images(display_images)
+        collect_image.display_images(org_image.width())
     elif test == "power":
         # power
         display_images.append(ManipulatePixel(grey_img).GetManipulatedPixel(
@@ -52,11 +52,11 @@ if __name__ == '__main__':
             Power, 50, 2.5))
         # show image
         collect_image = CollectQImage()
-        collect_image.add_images_to_layout(display_images)
-        collect_image.display(org_image.width())
+        collect_image.add_images(display_images)
+        collect_image.display_images(org_image.width())
     else:
         # show image
         collect_image = CollectQImage()
-        collect_image.add_images_to_layout(display_images)
-        collect_image.display(org_image.width())
+        collect_image.add_images(display_images)
+        collect_image.display_images(org_image.width())
     sys.exit(app.exec_())

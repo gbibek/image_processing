@@ -21,7 +21,7 @@ class ManipulatePixel:
             computed_intensity = func(self.image_2d, scale[0])
         elif len(scale) == 2:
             computed_intensity = func(self.image_2d, scale[0], scale[1])
-
+        # convert 2d array version of image to QImage
         for row in range(len(computed_intensity)):
             for col in range(len(computed_intensity[row])):
                 val = computed_intensity[row][col]
