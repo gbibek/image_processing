@@ -53,10 +53,10 @@ if __name__ == '__main__':
         # show image
         collect_image = CollectQImage()
         collect_image.add_images_to_layout(display_images)
-        collect_image.dispaly(org_image.width())
+        collect_image.display(org_image.width())
     else:
         # show image
         collect_image = CollectQImage()
         collect_image.add_images_to_layout(display_images)
-        collect_image.dispaly(org_image.width())
+        collect_image.display(org_image.width())
     sys.exit(app.exec_())

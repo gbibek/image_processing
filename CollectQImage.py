@@ -27,9 +27,9 @@ class CollectQImage(QWidget):
         layout = QVBoxLayout(self)
         layout.addWidget(self.scroll)
 
-    def dispaly(self, width):
+    def display(self, width):
         self.setGeometry(500, 100, width + 100, 500)
-        self.setWindowTitle("Display process images")
+        self.setWindowTitle("Display processed images")
         self.show()
 
     def add_image_to_widget(self, img, x, y):
