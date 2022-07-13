@@ -46,7 +46,7 @@ def image_process(org_image, test):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     image_name = "test_img.jpg"
-    test = "power"
+    test = "log"
     # open image
     org_image = QImage(image_name)
     display_images = image_process(org_image, test)

@@ -1,4 +1,4 @@
-table>
+<table>
 <tr>
 <th> Good </th>
 <th> Bad </th>
