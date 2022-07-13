@@ -17,6 +17,17 @@ int foo() {
 <td>
 
 ```c++
+int goo() {
+    int result = 55;
+    return result;
+}
+```
+
+</td>
+
+<td>
+
+```c++
 int foo() { 
     int x = 4;
     return x;
@@ -24,5 +35,16 @@ int foo() {
 ```
 
 </td>
+<td>
+
+```c++
+int goo() {
+    int result = 4;
+    return x;
+}
+```
+
+</td>
+
 </tr>
 </table>
